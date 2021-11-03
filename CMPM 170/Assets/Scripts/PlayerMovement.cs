@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         direction = transform.right * x + transform.forward * z;
+        if(x != 0 && z != 0) direction /= 1.5f;
         // gravity
         groundCheck();
         gravity -= 9.81f * Time.deltaTime;
