@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         if(teleport()){
             Debug.Log("Teleported!");
             //if teleported do...
-            Instantiate(Bonfire, transform.position, Quaternion.identity);
+            Instantiate(Bonfire, transform.position, Quaternion.identity);  //just an example
         }
     }
     private void groundCheck(){
