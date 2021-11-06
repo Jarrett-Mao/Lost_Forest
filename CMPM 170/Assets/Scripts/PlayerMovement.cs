@@ -14,10 +14,12 @@ public class PlayerMovement : MonoBehaviour
     public GameObject South;
     public GameObject East;
     public GameObject West;
+    public GameObject Bonfire;
 
     private float gravity;
     private Vector3 direction;
     private bool isGrounded;
+    private bool center = false;
 
     void Update()
     {
@@ -35,7 +37,11 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = direction;
         controller.Move(move * speed * Time.deltaTime);
-        teleport();
+        if(teleport()){
+            Debug.Log("Teleported!");
+            //if teleported do...
+            Instantiate(Bonfire, transform.position, Quaternion.identity);
+        }
     }
     private void groundCheck(){
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
@@ -45,23 +51,40 @@ public class PlayerMovement : MonoBehaviour
     //to implement the teleportation
     private void OnTriggerEnter(Collider other){
         
+        if(other.CompareTag("Marker") && center == false){
+            Debug.Log("collider");
+            Instantiate(Bonfire, other.transform.position + other.transform.up * 23, Quaternion.identity);
+            center = true;
+        }
+
+        if(other.CompareTag("Bonfire") && center == true){
+            Debug.Log("bonfire lit");
+            center = false;
+            Destroy(GameObject.FindWithTag("Bonfire"));
+        }
+
     }
 
     //separate function for teleporting
     //once you near this side, you go to the opposite side. c.x
-    void teleport(){
+    bool teleport(){
         if(transform.position.x > East.transform.position.x){
             transform.position = new Vector3(West.transform.position.x, transform.position.y, transform.position.z);
+            return true;
         }
         if(transform.position.x < West.transform.position.x){
             transform.position = new Vector3(East.transform.position.x, transform.position.y, transform.position.z);
+            return true;
         }
         if(transform.position.z < South.transform.position.z){
             transform.position = new Vector3(transform.position.x, transform.position.y, North.transform.position.z);
+            return true;
         }
         if(transform.position.z > North.transform.position.z){
             transform.position = new Vector3(transform.position.x, transform.position.y, South.transform.position.z);
+            return true;
         }
+        return false;
     }
 
 }
