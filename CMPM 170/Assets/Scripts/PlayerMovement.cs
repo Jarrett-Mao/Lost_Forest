@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject East;
     public GameObject West;
     public GameObject Bonfire;
+    public AudioSource footsteps;
     public float slopeForce;
     public float slopeForceRayLength;
 
@@ -51,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
             //if teleported do...
             //Instantiate(Bonfire, transform.position, Quaternion.identity);  //just an example
         //}
+        if((x != 0 || z != 0) &&  !footsteps.isPlaying){
+            footsteps.Play();
+        }
     }
     private void groundCheck(){
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
