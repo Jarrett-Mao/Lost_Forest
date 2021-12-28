@@ -47,11 +47,6 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
 
         teleport();
-        //if(teleport()){
-            //Debug.Log("Teleported!");
-            //if teleported do...
-            //Instantiate(Bonfire, transform.position, Quaternion.identity);  //just an example
-        //}
         if((x != 0 || z != 0) &&  !footsteps.isPlaying){
             footsteps.volume = Random.Range(0.075f, 0.1f);
             footsteps.pitch = Random.Range(1.2f, 1.3f);
